@@ -1,0 +1,317 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700&display=swap');
+
+/* =============== ROOT ============== */
+:root{
+    --color-primary: #E02431;
+    --color-danger: #ff7782;
+    --color-success: #41f1b6;
+    --color-warning: #ffbb55;
+    --color-white: #ffffff;
+    --color-dark: #000000;
+    --color-second-dark: #ffffff;
+    --color-background-utama: #EAEAEA;
+    --color-background-sidebar: #fdfdfd;
+    --color-info-dark: #7d8da1;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --box-shadow: 0.5rem 0.5rem 0.5rem var(--color-light);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: raleway;
+  }
+  body {
+    min-height: 100vh;
+    background: var(--color-background-utama);
+  }
+  /* Pre css */
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+  .nav_image {
+    display: flex;
+    width: 11rem;
+    height: 4rem;
+    justify-content: center;
+    margin-left: 2.8rem;
+    border-bottom: 1px solid #000000;
+  }
+  /* Sidebar */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 290px;
+    background: var(--color-background-sidebar);
+    padding: 15px 10px;
+    box-shadow: var(--box-shadow);
+    transition: all 0.4s ease;
+  }
+  
+  .menu_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    overflow-y: auto;
+    height: calc(100% - 82px);
+  }
+  .menu_container::-webkit-scrollbar {
+    display: none;
+  }
+  .menu_title {
+    position: relative;
+    height: 50px;
+    width: 55px;
+  }
+  .menu_title .title {
+    margin-left: 15px;
+    transition: all 0.3s ease;
+  }
+  .sidebar.close .title {
+    opacity: 0;
+  }
+  .menu_title .line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 3px;
+    width: 20px;
+    border-radius: 25px;
+    background: var(--color-dark);
+    transition: all 0.3s ease;
+  }
+  .menu_title .line {
+    opacity: 0;
+  }
+  .sidebar.close .line {
+    opacity: 1;
+  }
+  .item {
+    list-style: none;
+  }
+  .link {
+    font-family: raleway;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    color: var(--color-dark);
+  }
+  .link:hover {
+    color: #fff;
+    background-color: var(--color-primary);
+    box-shadow: var(--box-shadow);
+  }
+  .link span {
+    white-space: nowrap;
+  }
+  .link i {
+    height: 50px;
+    min-width: 55px;
+    display: flex;
+    font-size: 22px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .menu_item li:last-child {
+    /* margin-top: 90%; */
+    border-top: solid 1px var(--color-dark);
+    border-bottom: solid 1px var(--color-dark);
+  }
+
+  .menu_item li a:last-child {
+    margin-top: 10px;
+  }
+
+  /* @media screen and (min-width: 1020px) {
+      .menu_item li:last-child {
+        margin-top: 29%;
+      }
+  } */
+
+   /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .sidebar {
+    width: 290px;
+  }
+
+  .link {
+    font-size: 14px;
+  }
+
+  .link i {
+    font-size: 18px;
+  }
+} 
+
+@media only screen and (min-width: 1920px) {
+  .sidebar {
+    width: 310px;
+  }
+
+  .link {
+    font-size: 16px;
+  }
+
+  
+} 
+
+  /* @media screen and (min-width: 1920px) {
+    .sidebar {
+      width: 310px;
+    }
+
+    .link {
+      font-size: 16px;
+    }
+
+    .menu_item li:last-child {
+      margin-top: 150%;
+    }
+  } */
+
+
+  .menu_item .item a.active {
+    position: relative;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+}
+
+
+
+/* =============== Sidebar ==============
+aside .sidebar {
+    width: 100%;
+    height: 80%;
+    background: var(--color-background-sidebar);
+    display: flex;
+    margin-right: 1.5rem;
+    flex-direction: column;
+    position: relative;
+    top: 2rem;
+}
+
+aside span {
+    font-weight: 700;
+    font-family: raleway;
+}
+
+aside .sidebar a {
+    display: flex;
+    color: var(--color-info-dark);
+    margin-left: 4rem;
+    margin-bottom: 1.2rem;
+    gap: 1rem;
+    align-items: center;
+    position: relative;
+    height: 3.7rem;
+    transition: all 300ms ease;   
+}
+
+/* aside .sidebar .logout {
+    position: absolute;
+    margin-right: 5rem;
+    bottom: 25rem;
+    width: 100%;
+} */
+
+/* aside .sidebar a:last-child {
+    position: absolute;
+    margin-left: 7rem;
+    bottom: -3rem;
+    width: 85%;
+}
+aside .sidebar a i {
+    font-size: 1.2rem;
+    transition: all 300ms ease;
+}
+
+aside .sidebar a.active {
+    position: relative;
+    background: var(--color-primary);
+    color: var(--color-white);
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+}
+
+aside .sidebar a.active i {
+    color: var(--color-white);
+    margin-left: 2.5rem;
+}
+
+aside .sidebar a.active:hover {
+    color: var(--color-white);    
+}
+
+aside .sidebar a.active:hover i {
+    margin-left: 3rem;
+    color: var(--color-white);
+} */
+
+/* =============== Khusus About ============== */
+/* aside .sidebar a.active-about {
+    position: absolute;
+    background: var(--color-primary);
+    color: var(--color-white);
+    margin-left: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+}
+
+aside .sidebar a.active-about i {
+    color: var(--color-white);
+    margin-left: 5.5rem;
+}
+
+aside .sidebar a.active-about:hover {
+    color: var(--color-white);
+}
+
+aside .sidebar a.active-about:hover i {
+    margin-left: 6.5rem;
+    color: var(--color-white);
+} */
+/* =============== End About ============== */
+
+/* aside .sidebar a:hover {
+    color: var(--color-dark);
+}
+
+aside .sidebar a:hover i {
+    margin-left: 1rem;
+    color: var(--color-dark);
+} */

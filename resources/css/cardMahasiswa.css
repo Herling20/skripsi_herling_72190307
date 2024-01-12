@@ -1,0 +1,50 @@
+.img-mahasiswaDosen {
+    height: 120px;
+    width: 85px;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+}
+
+.info-mahasiswa {
+    padding-left: 0.8rem;
+    font-size: 12px;
+}
+
+.progress-mahasiswa {
+    display: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress-mahasiswa .judulProgress-mahasiswaDosen {
+    font-size: 11px;
+    font-weight: 700;
+    font-family: raleway;
+
+}
+
+.circular-progress-mahasiswaDosen{
+    position: relative;
+    height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    background: conic-gradient(var(--color-primary) 3.6deg, #ededed 0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.circular-progress-mahasiswaDosen::before{
+    content: "";
+    position: absolute;
+    height:65px;
+    width: 65px;
+    border-radius: 50%;
+    background-color: #fff;
+}
+.progress-value-mahasiswaDosen{
+    position: relative;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: raleway;
+    color: var(--color-primary);
+}

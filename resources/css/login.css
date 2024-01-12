@@ -1,0 +1,86 @@
+.halaman-login {
+    display: flex;
+    /* position: ; */
+    min-width: 100%;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: url('/public/image/logo.svg') no-repeat;
+    background-size: 600px;
+    background-position: center;
+    background-color: white;
+}
+
+.wrapper {
+     width: 420px;
+     background-color: rgba(234, 234, 234, .85);
+     backface-visibility: 0.4;
+     border-radius: 10px;
+     padding: 30px 40px;
+
+}
+
+.wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-box label {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 20px 45px 20px 20px
+}
+
+.input-box input::placeholder {
+
+}
+
+.input-box i {
+    position: absolute;
+    right: 20px;
+}
+
+.input-box .i-username {
+    top: 200%;
+    transform: translateY(-200%);
+}
+
+.input-box .i-password {
+    top: 280%;
+    transform: translateY(-280%);
+}
+
+.wrapper .show-password {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    padding-left: 20px;
+    margin: 95px 0 15px;
+}
+
+.remember-forgot label input {
+    margin-right: 3px;
+}
+
+.remember-forgot a {
+    color: black;
+    text-decoration: none;
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+}

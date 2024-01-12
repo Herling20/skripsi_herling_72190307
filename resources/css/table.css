@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;700&display=swap');
+
+/* =============== ROOT ============== */
+:root{
+    --color-primary: #E02431;
+    --color-danger: #ff7782;
+    --color-success: #41f1b6;
+    --color-warning: #ffbb55;
+    --color-white: #ffffff;
+    --color-dark: #000000;
+    --color-second-dark: #000000;
+    --color-background-utama: #EAEAEA;
+    --color-background-sidebar: #fdfdfd;
+    --color-info-dark: #7d8da1;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --box-shadow: 0.5rem 0.5rem 0.5rem var(--color-light);
+}
+
+/* =============== Table Main ============== */
+.judulTabel {
+    color: var(--color-white);
+    font-family: raleway;
+    font-size: 18px;
+    font-weight: 700;
+    padding-left: 1rem;
+}
+
+    
+
+/* =============== End Table Main ============== */
