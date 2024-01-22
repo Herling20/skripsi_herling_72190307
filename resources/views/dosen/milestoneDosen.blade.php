@@ -100,8 +100,10 @@
                     {{-- - Tambah Milestone - --}}
                     <div class="card-header pt-3 pb-1">
                         <div class="row">
-                            <div class="col-6 align-content-center p-pagination px-3">
-                                    {{ $milestone->links('pagination::bootstrap-4') }}
+                            <div class="col-6 align-content-center px-3 pt-3 text-sm">
+                                @foreach ($tahunAjaran as $mlstn)
+                                    <span class="text-bold">Tanggal Berakhir Milestone : {{ date('d M Y', strtotime($mlstn->tanggalSelesai)) }}</span>
+                                @endforeach
                             </div>
                             <div class="col-6 text-end">
                                 <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#tambahMilestone">
@@ -125,9 +127,9 @@
                                         <th
                                             class="col-1 text-center text-uppercase text-black text-xs font-weight-bolder opacity-8">
                                             Semester</th>
-                                        <th
+                                        {{-- <th
                                             class="col-1 text-center text-uppercase text-black text-xs font-weight-bolder opacity-8">
-                                            Tanggal Berakhir</th>
+                                            Tanggal Berakhir</th> --}}
                                         <th
                                             class="text-center text-black text-uppercase text-xs font-weight-bolder opacity-8">
                                             Nama Milestone</th>
@@ -140,6 +142,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                        $no = 0;
+                                    @endphp
                                     @foreach ($milestone as $mlstn)
                                         <tr>
                                             <td class="text-center">
@@ -150,15 +155,17 @@
                                                 <span
                                                     class="text-black text-xs font-weight-bold">{{ $mlstn->semester }}</span>
                                             </td>
-                                            <td class="text-center">
+                                            {{-- <td class="text-center">
                                                 <span
                                                     class="text-black text-xs font-weight-bold">{{ date('d M Y', strtotime($mlstn->tanggalBerakhir)) }}</span>
-                                            </td>
-                                            <td class="text-center">
-                                                <input type="text"
+                                            </td> --}}
+                                            <td class="w-100 text-justify">
+                                                <span
+                                                    class="text-wrap text-black text-xs font-weight-bolder">{{ $mlstn->namaMilestone }}</span>
+                                                {{-- <input type="text"
                                                     class="text-black text-xs font-weight-bold text-wrap w-100 bg-transparent border-0"
                                                     name="namaMilestone" id="namaMilestone" placeholder="Isi Nama Milestone"
-                                                    value="{{ $mlstn->namaMilestone }}" disabled>
+                                                    value="{{ $mlstn->namaMilestone }}" disabled> --}}
                                             </td>
                                             <td class="">
                                                 <input type="text"

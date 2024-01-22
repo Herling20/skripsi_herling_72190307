@@ -14,7 +14,6 @@ use App\Models\Bimbingan;
 use App\Models\DetailBimbingan;
 use App\Models\TahunAjaran;
 use Carbon\Carbon;
-use PDF;
 
 
 class MahasiswaController extends Controller
@@ -52,7 +51,7 @@ class MahasiswaController extends Controller
                             ->where('mahasiswas.id', '=', $mahasiswa)
                             ->where('milestones.semester', '=', $periodeMhs)
                             // ->whereBetween('detailbimbingan.tanggalPengajuan', [$tahunAjaranAktif->tanggalMulai,$tahunAjaranAktif->tanggalSelesai])
-                            ->orderby('detailbimbingan.tanggalPengajuan')
+                            ->orderby('detailbimbingan.tanggalPengajuan', 'DESC')
                             ->select('detailbimbingan.id','detailbimbingan.tanggalPengajuan',
                             'milestones.namaMilestone', 'dosens.nama as namaDosen', 'detailbimbingan.tanggalBimbingan',
                             'detailbimbingan.jamMulai', 'detailbimbingan.jamSelesai',
@@ -235,6 +234,7 @@ class MahasiswaController extends Controller
                     ->join('dosens', 'dosens.id', '=', 'bimbingan.dosen_id')
                     ->join('mahasiswas', 'mahasiswas.id', '=', 'bimbingan.mahasiswa_id')
                     ->where('bimbingan.level_pembimbing', '=', 1)
+                    ->where('detailbimbingan.statusBimbingan', '=', 'Disetujui')
                     ->where('mahasiswas.id', '=', $mahasiswa)
                     ->where('milestones.semester', '=', $periodeMhs)
                     // ->whereBetween('detailbimbingan.tanggalBimbingan', [$tahunAjaranAktif->tanggalMulai,$tahunAjaranAktif->tanggalSelesai])
@@ -247,6 +247,7 @@ class MahasiswaController extends Controller
                     ->join('dosens', 'dosens.id', '=', 'bimbingan.dosen_id')
                     ->join('mahasiswas', 'mahasiswas.id', '=', 'bimbingan.mahasiswa_id')
                     ->where('bimbingan.level_pembimbing', '=', 2)
+                    ->where('detailbimbingan.statusBimbingan', '=', 'Disetujui')
                     ->where('mahasiswas.id', '=', $mahasiswa)
                     ->where('milestones.semester', '=', $periodeMhs)
                     // ->whereBetween('detailbimbingan.tanggalBimbingan', [$tahunAjaranAktif->tanggalMulai,$tahunAjaranAktif->tanggalSelesai])
@@ -284,12 +285,6 @@ class MahasiswaController extends Controller
                 $item->ACC = $acc_milestone;
                 return $item;
         });
-
-        // dd($hasil);
-        
-        // $result now contains the combined data
-
-                    //  dd($jumlahKonsultasiDP1);
 
         $dosenPembimbing1 = Bimbingan::join('mahasiswas', 'mahasiswas.id', '=', 'bimbingan.mahasiswa_id')
                     ->join('dosens', 'dosens.id', '=', 'bimbingan.dosen_id')
@@ -378,8 +373,7 @@ class MahasiswaController extends Controller
                 ->select('detailbimbingan.tanggalBimbingan', 'detailbimbingan.catatanBimbingan')
                 ->get();
 
-        $riwayatBimbingan2 = DetailBimbingan::join('bimbingan', 'bimbingan.bimbingan_id', '=',
-                'detailbimbingan.bimbingan_id')
+        $riwayatBimbingan2 = DetailBimbingan::join('bimbingan', 'bimbingan.bimbingan_id', '=', 'detailbimbingan.bimbingan_id')
                 ->join('mahasiswas', 'mahasiswas.id', '=', 'bimbingan.mahasiswa_id')
                 ->join('dosens', 'dosens.id', '=', 'bimbingan.dosen_id')
                 ->where('mahasiswas.id', '=', $mahasiswa)
@@ -387,15 +381,16 @@ class MahasiswaController extends Controller
                 ->where('detailbimbingan.statusBimbingan', '=', 'Disetujui')
                 ->select('detailbimbingan.tanggalBimbingan', 'detailbimbingan.catatanBimbingan')
                 ->get();
-                // dd($riwayatBimbingan1);
 
-        $pdf = PDF::loadview('mahasiswa/pdf_mahasiswa/logbook',[
-            'dosen1'=>$dosen1, 
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML(view('mahasiswa.pdf_mahasiswa.logbook', [
+            'dosen1'=>$dosen1,
             'dosen2'=>$dosen2,
             'riwayatBimbingan1'=>$riwayatBimbingan1,
             'riwayatBimbingan2'=>$riwayatBimbingan2,
-        ]);
-        $pdf->setPaper('A4', 'potrait');
-        return $pdf->download('Kartu_Konsultasi_Skripsi_'.$nim.'.pdf');
+        ]));
+        return $mpdf->Output('Kartu_Konsultasi_Skripsi_'.$nim.'.pdf', 'D');
+        // $pdf->setPaper('A4', 'potrait');
+        // return $pdf->stream('Kartu_Konsultasi_Skripsi_'.$nim.'.pdf');
     }
 }

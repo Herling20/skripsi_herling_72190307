@@ -21,7 +21,7 @@
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: '35%',
+                    columnWidth: '25%',
                     endingShape: 'rounded'
                 },
             },
@@ -106,7 +106,7 @@
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: '30%',
+                    columnWidth: '25%',
                     endingShape: 'rounded',
                     distributed: true,
                 },
@@ -194,7 +194,8 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="{{ route('admin.profil') }}" class="{{ $halaman === 'profil' ? 'active' : '' }} link flex">
+                        <a href="{{ route('admin.profil') }}"
+                            class="{{ $halaman === 'profil' ? 'active' : '' }} link flex">
                             <i class="bi bi-person-fill"></i>
                             <span>Profile</span>
                         </a>
@@ -250,7 +251,7 @@
                             <i class="bi bi-people-fill opacity-10"></i>
                         </div>
                         <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">Total Mahasiswa</p>
+                            <p class="text-sm mb-0 text-capitalize">Jumlah Mahasiswa</p>
                             <h4 class="mb-0">{{ $mahasiswaBimbingan }}</h4>
                         </div>
                     </div>
@@ -271,7 +272,7 @@
                             <i class="bi bi-people-fill opacity-10"></i>
                         </div>
                         <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">Total Dosen</p>
+                            <p class="text-sm mb-0 text-capitalize">Jumlah Dosen</p>
                             <h4 class="mb-0">{{ $dosen }}</h4>
                         </div>
                     </div>
@@ -292,7 +293,7 @@
                             <i class="bi bi-book-fill opacity-10"></i>
                         </div>
                         <div class="text-end pt-1">
-                            <p class="text-sm mb-0 text-capitalize">Total Bimbingan</p>
+                            <p class="text-sm mb-0 text-capitalize">Frekuensi Bimbingan</p>
                             <h4 class="mb-0">{{ $jumlahBimbingan }}</h4>
                         </div>
                     </div>

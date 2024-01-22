@@ -56,10 +56,12 @@
             </div>
     </nav>
 @endsection
+
 @php
     $cekACC = 0;
     $counter = 0;
 @endphp
+
 @section('dashboard')
     <nav class="navbar navbar-expand-sm shadow-none pe-6 border-radius-xl" id="navbarBlur" navbar-scroll="true">
         <div class="judul">

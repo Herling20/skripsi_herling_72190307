@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Validation\InvokableRule;
 use App\Models\Milestone;
 use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\Auth;
 
 class SisaBobotRule implements InvokableRule
 {
@@ -20,8 +21,11 @@ class SisaBobotRule implements InvokableRule
                             ->select('tanggalMulai','tanggalSelesai')
                             ->first();
 
+        $dosen = Auth::user()->id;
+
         $semester = request()->input('semester');
         $totalBobotDatabase = Milestone::whereBetween('tanggalBerakhir', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
+                            ->where('dosen_id', $dosen)
                             ->where('semester', $semester)
                             ->sum('bobot');
 

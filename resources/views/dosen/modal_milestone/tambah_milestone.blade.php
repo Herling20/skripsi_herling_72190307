@@ -18,7 +18,6 @@
                         <div class="data-profile">
                             <input type="hidden" class="dosen_id text-black text-sm font-weight-bold text-wrap"
                                 name="dosen_id" id="dosen_id" value="{{ Auth::user()->id }}">
-
                             <label for="" class="text-dark text-start">Nama
                                 Milestone</label>
                             <textarea type="text"
@@ -39,12 +38,12 @@
                                 <option value="Genap">Genap</option>
                             </select>
                         </div>
-                        <div class="data-profile">
+                        {{-- <div class="data-profile">
                             <label for="" class="text-dark text-start">Akhir
                                 Berlaku</label>
                             <input type="datetime-local" name="tanggalBerakhir" id="tanggalBerakhir"
                                 class="tanggalBerakhir text-sm text-center form-control" min="{{ date('Y-m-d\TH:i') }}">
-                        </div>
+                        </div> --}}
                     </div>
                     {{-- <button type="submit" class="btn btn-success me-2">Tambah</button> --}}
                     <button type="submit" class="tambah_milestone btn btn-success me-2">Tambah</button>
@@ -60,7 +59,6 @@
     $(document).ready(function() {
         $(document).on('submit', '#tambahMilestoneForm', function(e) {
             e.preventDefault();
-            // console.log('hello');
 
             var dataMilestone = $(this).serializeArray();
 
@@ -112,7 +110,7 @@
 
 
                     // Event listener to remove error message when the corresponding input field is filled
-                    $('#namaMilestone, #bobot, #semester, #tanggalBerakhir').on('input',
+                    $('#namaMilestone, #bobot, #semester').on('input',
                         function() {
                             var inputId = '#' + $(this).attr('id');
                             if ($(inputId).val().trim() !== '') {

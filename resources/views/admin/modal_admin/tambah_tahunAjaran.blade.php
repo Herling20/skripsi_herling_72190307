@@ -75,7 +75,7 @@
 
             // Calculate tanggalSelesai by adding 5 months to tanggalMulai
             var tanggalSelesai = new Date(tanggalMulai);
-            tanggalSelesai.setMonth(tanggalMulai.getMonth() + 5);
+            tanggalSelesai.setMonth(tanggalMulai.getMonth() + 4);
             tanggalSelesai.setHours(tanggalMulai.getHours());
             tanggalSelesai.setMinutes(tanggalMulai.getMinutes());
             console.log(tanggalMulai);

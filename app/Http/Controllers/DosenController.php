@@ -51,10 +51,9 @@ class DosenController extends Controller
 
         $namaMahasiswa = Mahasiswa::join('periode', 'periode.mahasiswa_id', '=', 'mahasiswas.id')
                         ->join('bimbingan', 'bimbingan.mahasiswa_id' , '=', 'mahasiswas.id')
-                        // ->join('detailbimbingan', 'detailbimbingan.bimbingan_id', '=', 'bimbingan.bimbingan_id')
                         ->where('bimbingan.dosen_id', $dosen_id)
                         ->whereBetween('periode.tanggalMulai', [$tahunAjaranAktif->tanggalMulai,$tahunAjaranAktif->tanggalSelesai])
-                        ->select('mahasiswas.nama')
+                        ->select('mahasiswas.nama', 'bimbingan.level_pembimbing')
                         ->get();
         
         // $dataNamaMhs = $namaMahasiswa->nama;
@@ -129,6 +128,7 @@ class DosenController extends Controller
                 'namaMahasiswa' => $namaMhs->nama,
                 'dataBulan' => $dataBulan,
                 'jumlah_bimbingan_bulanan' => $jumlahBimbinganBulanan,
+                'levelPembimbing' => $namaMhs->level_pembimbing,
             ];
         }
         // dd($dataMahasiswa);
@@ -149,10 +149,24 @@ class DosenController extends Controller
                     $namaMentah = explode(" ", $dataJum['namaMahasiswa']);
                     if(count($namaMentah) > 1)
                     {
-                        array_push($namaMhs, $namaMentah[0]." ".$namaMentah[1]);
+                        if($dataJum['levelPembimbing'] == 1) {
+                            array_push($namaMhs, $namaMentah[0]." ".$namaMentah[1]);
+                        }
+                        else 
+                        {
+                            array_push($namaMhs, $namaMentah[0]." ".$namaMentah[1]."#");
+                        }
                     } else 
                     {
-                        array_push($namaMhs, $dataJum['namaMahasiswa']);
+                        if($dataJum['levelPembimbing'] == 1)
+                        {
+                            array_push($namaMhs, $dataJum['namaMahasiswa']);
+                        }
+                        else
+                        {
+                            array_push($namaMhs, $dataJum['namaMahasiswa']."#");
+                        }
+                        
                     }
                     array_push($dataBulanan, $dataJum['jumlah_bimbingan_bulanan'][$counter]);
                 }
@@ -393,6 +407,7 @@ class DosenController extends Controller
                     ->leftJoin('detailbimbingan', 'bimbingan.bimbingan_id', '=', 'detailbimbingan.bimbingan_id')
                     ->whereBetween('periode.tanggalMulai', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
                     ->where('bimbingan.dosen_id', '=', $dosen)
+                    ->where('detailbimbingan.statusBimbingan', '=', 'Disetujui')
                     ->orderby('mahasiswas.angkatan', 'DESC')
                     ->groupBy('mahasiswas.id', 'mahasiswas.nim', 'mahasiswas.nama', 'mahasiswas.angkatan', 'mahasiswas.foto')
                     ->select('mahasiswas.id', 'mahasiswas.nim', 'mahasiswas.nama', 'mahasiswas.angkatan', 'mahasiswas.foto',
@@ -520,19 +535,22 @@ class DosenController extends Controller
         $tahunAjaranAktif = TahunAjaran::where('status', '=', 'Aktif')
                             ->select('tanggalMulai','tanggalSelesai')
                             ->first();
+        $tahunAktif = TahunAjaran::where('status', '=', 'Aktif')
+                            ->select('tanggalMulai','tanggalSelesai')
+                            ->get();
 
         $dosen = Auth::user()->id;
-        $pagination = 7;
 
         $milestone = Milestone::where('milestones.dosen_id', '=', $dosen)
                 ->whereBetween('tanggalBerakhir', [$tahunAjaranAktif->tanggalMulai,$tahunAjaranAktif->tanggalSelesai])
                 ->select('milestones.id', 'milestones.namaMilestone', 'milestones.bobot', 'milestones.semester', 'milestones.tanggalBerakhir')
-                ->paginate($pagination);
+                ->get();
         
         return view('dosen.milestoneDosen', [
             'halaman' => 'milestone',
             'milestone'=>$milestone,
-        ])->with('no', ($request->input('page', 1) - 1) * $pagination);
+            'tahunAjaran'=>$tahunAktif,
+        ]);
     }
     
 
@@ -542,13 +560,15 @@ class DosenController extends Controller
                         ->select('tanggalMulai','tanggalSelesai')
                         ->first();
 
+        $dosen = Auth::user()->id;
+
         $request->validate([
             'namaMilestone' => [
                 'required',
                 'string',
-                Rule::unique('milestones')->where(function ($query) use ($tahunAjaranAktif) {
+                Rule::unique('milestones')->where(function ($query) use ($tahunAjaranAktif, $dosen) {
                     return $query->whereBetween('tanggalBerakhir', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
-                                ->where('semester', request('semester'))->exists(); 
+                                ->where('dosen_id', $dosen)->where('semester', request('semester'))->exists(); 
                 }),
             ],
             'bobot' => [
@@ -560,7 +580,7 @@ class DosenController extends Controller
 
             ],
             'semester' => 'required',
-            'tanggalBerakhir' => 'required',
+            // 'tanggalBerakhir' => 'required',
         ], [
             'namaMilestone.required' => 'Nama Milestone tidak boleh kosong.',
             'namaMilestone.string' => 'Nama Milestone harus berupa huruf.',
@@ -572,7 +592,7 @@ class DosenController extends Controller
 
             'semester.required' => 'Semester harus dipilih.',
 
-            'tanggalBerakhir.required' => 'Tanggal Berakhir tidak boleh kosong.',
+            // 'tanggalBerakhir.required' => 'Tanggal Berakhir tidak boleh kosong.',
         ]);
 
 
@@ -583,28 +603,26 @@ class DosenController extends Controller
         $milestone->namaMilestone = $request->input('namaMilestone');
         $milestone->bobot = $request->input('bobot');
         $milestone->semester = $request->input('semester');
-        $milestone->tanggalBerakhir = $request->input('tanggalBerakhir');
+        $milestone->tanggalBerakhir = $tahunAjaranAktif->tanggalSelesai;
         $milestone->save();
 
         return response() -> json([
             'status' => 'sukses',
-            // 'message' => 'Data milestone telah ditambahkan.',
-            // 'totalBobotGanjil' => $totalBobotGanjil,
-            // 'totalBobotGenap' => $totalBobotGenap,
         ]);
 
     }
 
     public function editMilestone(Request $request) 
     {   
-        // dd($request->all());
+        $dosen = Auth::user()->id;
+
         $request->validate([
             'namaMilestone' => [
                 'required',
                 'string',
-                Rule::unique('milestones')->where(function ($query) {
+                Rule::unique('milestones')->where(function ($query) use ($dosen) {
                     return $query->where('semester', request('semester'))
-                    ->where('id', '!=', request('milestone_id'));
+                    ->where('dosen_id', $dosen)->where('id', '!=', request('milestone_id'));
                 }),
             ],
             'bobot' => [
@@ -615,7 +633,7 @@ class DosenController extends Controller
                 new EditSisaBobotRule(),
             ],
             // 'semester' => 'required',
-            'tanggalBerakhir' => 'required',
+            // 'tanggalBerakhir' => 'required',
         ], [
             'namaMilestone.required' => 'Nama Milestone tidak boleh kosong.',
             'namaMilestone.string' => 'Nama Milestone harus berupa huruf.',
@@ -627,7 +645,7 @@ class DosenController extends Controller
 
             // 'semester.required' => 'Semester harus dipilih.',
 
-            'tanggalBerakhir.required' => 'Tanggal Berakhir tidak boleh kosong.',
+            // 'tanggalBerakhir.required' => 'Tanggal Berakhir tidak boleh kosong.',
         ]);
 
         $milestone_id = $request->input('milestone_id');
@@ -636,7 +654,7 @@ class DosenController extends Controller
 
         $milestone->namaMilestone = $request->input('namaMilestone');
         $milestone->bobot = $request->input('bobot');
-        $milestone->tanggalBerakhir = $request->input('tanggalBerakhir');
+        // $milestone->tanggalBerakhir = $request->input('tanggalBerakhir');
 
         $milestone->save();
 

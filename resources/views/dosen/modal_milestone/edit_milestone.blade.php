@@ -35,13 +35,6 @@
                             <input type="text" class="text-black text-sm font-weight-bold text-center" name="bobot"
                                 id="bobot" placeholder="Isi bobot" value="{{ $mlstn->bobot }}">
                         </div>
-                        <div class="data-profile">
-                            <label for="" class="text-dark text-start">Akhir
-                                Berlaku</label>
-                            <input type="datetime-local" name="tanggalBerakhir" id="tanggalBerakhir"
-                                class="text-sm text-center form-control" min="{{ date('Y-m-d\TH:i') }}"
-                                value="{{ date('Y-m-d\TH:i', strtotime($mlstn->tanggalBerakhir)) }}">
-                        </div>
                     </div>
                     <div id="errorContainer" class="text-danger"></div>
                     <div class="flex justify-content-end pe-3">

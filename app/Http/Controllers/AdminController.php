@@ -22,8 +22,17 @@ class AdminController extends Controller
 {
     public function dashboardAdmin() 
     {
+        $tahunAjaranAktif = TahunAjaran::where('status', '=', 'Aktif')
+                            ->select('tanggalMulai','tanggalSelesai')
+                            ->first();
+
         $dosens = Dosen::select('id', 'nama')->orderby('id')->get();
-        $angkatans = Mahasiswa::select('angkatan')->orderby('angkatan', 'DESC')->distinct()->get();
+        $angkatans = Mahasiswa::join('periode', 'periode.mahasiswa_id', '=', 'mahasiswas.id')
+                    ->whereBetween('periode.tanggalMulai', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
+                    ->select('angkatan')
+                    ->orderby('angkatan', 'DESC')
+                    ->distinct()
+                    ->get();
 
         $jumlahMahasiswa = [];
         $namaDosen = [];
@@ -32,10 +41,12 @@ class AdminController extends Controller
         foreach ($angkatans as $angkatan) {
             $jumlahMahasiswaAngkatan = [];
             foreach ($dosens as $dosen) {
-                $jumlahMhs = Mahasiswa::join('bimbingan', 'bimbingan.mahasiswa_id' , '=', 'mahasiswas.id' )
+                $jumlahMhs = Mahasiswa::join('periode', 'periode.mahasiswa_id', '=', 'mahasiswas.id')
+                    ->join('bimbingan', 'bimbingan.mahasiswa_id' , '=', 'mahasiswas.id' )
                     ->join('dosens', 'dosens.id' , '=', 'bimbingan.dosen_id' )
                     ->where('bimbingan.dosen_id', $dosen->id)
                     ->where('mahasiswas.angkatan', $angkatan->angkatan)
+                    ->whereBetween('periode.tanggalMulai', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
                     ->groupby('mahasiswas.angkatan')
                     ->count('bimbingan.bimbingan_id');
 
@@ -57,6 +68,7 @@ class AdminController extends Controller
                 ->join('dosens', 'dosens.id' , '=', 'bimbingan.dosen_id' )
                 ->where('bimbingan.dosen_id', $dosen->id)
                 ->where('detailbimbingan.statusBimbingan', '=', 'Disetujui')
+                ->whereBetween('detailbimbingan.tanggalBimbingan', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
                 ->count('detailbimbingan.id');
 
             $jumlahBimbinganDosen[] = $jumlahBimbinganDsn;
@@ -68,10 +80,6 @@ class AdminController extends Controller
         $data['dataJumlahMahasiswa'] = $mahasiswaDosen;
         $data['namaDosen'] = $namaDosen;
 
-        $tahunAjaranAktif = TahunAjaran::where('status', '=', 'Aktif')
-                        ->select('tanggalMulai','tanggalSelesai')
-                        ->first();
-
         $mahasiswaBimbingan = Mahasiswa::join('periode', 'periode.mahasiswa_id', '=', 'mahasiswas.id')
                 ->whereBetween('periode.tanggalMulai', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
                 ->whereNull('periode.tanggalSelesai')
@@ -81,18 +89,13 @@ class AdminController extends Controller
                 ->whereBetween('detailbimbingan.tanggalBimbingan', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
                 ->COUNT('detailbimbingan.id');
 
-        $mahasiswaLulus = Mahasiswa::join('periode', 'periode.mahasiswa_id', '=', 'mahasiswas.id')
-                ->whereBetween('periode.tanggalMulai', [$tahunAjaranAktif->tanggalMulai, $tahunAjaranAktif->tanggalSelesai])
-                ->whereNotNull('periode.tanggalSelesai')
-                ->COUNT('mahasiswas.id');
-
         $dosen = Dosen::count();
 
         return view('admin.dashboardAdmin', [
             'halaman' => 'dashboard',
             'data' => $data,
             'mahasiswaBimbingan' => $mahasiswaBimbingan,
-            'mahasiswaLulus' => $mahasiswaLulus,
+            // 'mahasiswaLulus' => $mahasiswaLulus,
             'jumlahBimbingan' => $jumlahBimbingan,
             'dosen' => $dosen
         ]);

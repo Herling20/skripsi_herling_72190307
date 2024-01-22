@@ -36,7 +36,7 @@
                 bar: {
                     horizontal: false,
                     borderRadius: 10,
-                    columnWidth: '45%',
+                    columnWidth: '30%',
                     dataLabels: {
                         total: {
                             enabled: true,
@@ -61,6 +61,14 @@
                     fontWeight: 'bold'
                 }
             },
+            subtitle: {
+                text: '# = Mahasiswa Bimbingan 2',
+                align: 'left',
+                style: {
+                    fontSize: '12px',
+                    fontWeight: 'bold'
+                }
+            },
             xaxis: {
                 categories: @json($namaMahasiswa),
             },
@@ -68,7 +76,7 @@
                 title: {
                     text: 'Jumlah Bimbingan'
                 },
-                distributed: true,
+                distributed: true
             },
             legend: {
                 position: 'right',
@@ -118,7 +126,7 @@
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: '30%',
+                    columnWidth: '25%',
                     endingShape: 'rounded',
                     distributed: true,
                 },
@@ -140,6 +148,14 @@
                 offsetY: 0,
                 style: {
                     fontSize: '14px',
+                    fontWeight: 'bold'
+                }
+            },
+            subtitle: {
+                text: '# = Mahasiswa Bimbingan 2',
+                align: 'left',
+                style: {
+                    fontSize: '12px',
                     fontWeight: 'bold'
                 }
             },

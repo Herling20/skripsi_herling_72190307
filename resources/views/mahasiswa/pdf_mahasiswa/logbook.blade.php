@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- <link rel="stylesheet" href="{{ asset('/resources/css/material-dashboard.css') }}" media="all" /> --}}
-    @vite(['resources/css/material-dashboard.css'])
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
 
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> --}}
@@ -18,10 +17,6 @@
 
     .border2 {
         border: 2px solid black;
-    }
-
-    .border {
-        border: 1px solid black;
     }
 
     .borderAtas {
@@ -98,6 +93,18 @@
 
     .me-1 {
         margin-right: 0.55rem !important;
+    }
+
+    .w-3 {
+        width: 3% !important;
+    }
+
+    .w-4 {
+        width: 4% !important;
+    }
+
+    .w-5 {
+        width: 5% !important;
     }
 
     .w-10 {
@@ -213,7 +220,7 @@
     }
 
     .text-bold {
-        font-weight: 600;
+        font-weight: 800;
     }
 
     .text-white {
@@ -234,12 +241,62 @@
     }
 
     textarea {
-        width: 210px;
+        width: 215px;
         height: 85px;
+        font-size: 12px;
         resize: none;
-        position: absolute;
-        border: none;
+        outline: none;
         font-family: 'Times New Roman';
+    }
+
+    .borderNone {}
+
+    .header1 {
+        width: 37%;
+        padding-right: 10px;
+    }
+
+    .header2 {
+        width: 45%;
+        text-align: center;
+    }
+
+    .unv {
+        font-size: 12px;
+        margin-bottom: 0rem;
+    }
+
+    .ps {
+        font-size: 13.5px;
+    }
+
+    .ks {
+        font-size: 15px;
+    }
+
+    .semester {
+        font-size: 12px;
+    }
+
+    .border {
+        border: 1px solid #000 !important;
+    }
+
+    .d-flex {
+        display: -webkit-box;
+        display: -webkit-flex;
+        /* wkhtmltopdf uses this one */
+        display: flex;
+        -webkit-box-pack: justify;
+        /* wkhtmltopdf uses this one */
+        justify-content: space-between;
+    }
+
+    .flex-riwayat {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+        display: flex
     }
 </style>
 
@@ -250,160 +307,201 @@
                 <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('/image/logo_ukdw.png'))) }}"
                     alt="Image" class="" width="70" height="65">
             </td>
-            <td width="290px">
-                <font size="2">UNIVERSITAS KRISTEN DUTA WACANA FAKULTAS TEKNOLOGI INFORMASI</font>
-                <hr class="me-1">
+            <td class="header1">
+                <p class="unv">UNIVERSITAS KRISTEN DUTA WACANA FAKULTAS TEKNOLOGI INFORMASI</p>
+                <hr class="">
                 {{-- <span class="text-bold">PROGRAM STUDI SISTEM INFORMASI</span> --}}
-                <font size="15.5px" class="text-bold">PROGRAM STUDI SISTEM INFORMASI</font>
+                <p class="ps"><b>PROGRAM STUDI SISTEM INFORMASI</b></p>
             </td>
-            <td width="310px" class="center bg-header">
-                <font size="18px" class="text-bold">KARTU KONSULTASI SKRIPSI</font><br>
-                <font size="13px">Mulai Sem. {{ date('Y', strtotime(Auth::user()->periode->tanggalMulai)) }} /
-                    {{ date('Y', strtotime(Auth::user()->periode->tanggalMulai)) + 1 }}</font>
+            <td class="header2 bg-header">
+                <p class="ks"><b>KARTU KONSULTASI SKRIPSI</b></p><br style="height: 2px">
+                <p class="semester">Mulai Sem. {{ Auth::user()->periode->semester }} /
+                    {{ date('Y', strtotime(Auth::user()->periode->tanggalMulai)) }}</p>
             </td>
         </tr>
-        {{-- <tr>
-            <td colspan="3">
-                <hr>
-            </td>
-        </tr> --}}
     </table>
-    <table class="border2 mt-4 w-100 ">
+    <table class="kolomInfo border mt-4 w-100">
         <tr>
-            <td class="w-20 text-sm">
+            <td style="width: 18%; font-size: 12px">
                 NIM
             </td>
-            <td class="text-sm">
+            <td style="width: 2%; text-align: center; font-size: 12px">
                 :
             </td>
-            <td class="text-bold">
-                <span class="text-sm">{{ Auth::user()->nim }}</span>
+            <td style="width: 16%">
+                <span class="text-sm" style="width: 2%; font-size: 12px"><b>{{ Auth::user()->nim }}</b></span>
             </td>
-            <td class="w-20">
-                <span class="text-sm">Nama Mahasiswa</span>
+            <td style="width: 20%; font-size: 12px">
+                <span>Nama Mahasiswa</span>
             </td>
-            <td class="text-sm">
+            <td style="width: 2%; text-align: center;">
                 :
             </td>
-            <td class="w-50">
-                <span class="text-uppercase text-bold text-sm">{{ Auth::user()->nama }}</span>
+            <td style="">
+                <span class="text-uppercase" style="font-size: 12px"><b>{{ Auth::user()->nama }}</b></span>
             </td>
         </tr>
         <tr>
             <td>
-                <span class="text-sm justify-content-start">Judul Skripsi</span>
+                <span class="text-sm justify-content-start" style="font-size: 12px">Judul Skripsi</span>
             </td>
-            <td class="center">
+            <td style="width: 2%; text-align: center; font-size: 12px">
                 :
             </td>
             <td colspan="4">
-                <span class="text-uppercase text-bold text-sm">{{ Auth::user()->judul }}</span>
+                <span class="text-uppercase" style="font-size: 12px"><b>{{ Auth::user()->judul }}</b></span>
             </td>
         </tr>
         <tr>
             <td>
-                <span class="text-sm">Pembimbing 1</span>
+                <span style="font-size: 12px">Pembimbing 1</span>
             </td>
-            <td class="center">
+            <td style="width: 2%; text-align: center; font-size: 12px">
                 :
             </td>
-            <td class="w-25">
+            <td colspan="1">
                 @foreach ($dosen1 as $dp1)
-                    <span class="text-sm text-bold">{{ $dp1->nama }}</span>
+                    <span style="font-size: 12px"><b>{{ $dp1->nama }}</b></span>
                 @endforeach
             </td>
             <td>
-                <span class="text-sm">Pembimbing 2</span>
+                <span style="font-size: 12px">Pembimbing 2</span>
             </td>
-            <td class="center text-sm">
+            <td style="text-align: center; font-size: 12px">
                 :
             </td>
-            <td class="w-25">
+            <td>
                 @foreach ($dosen2 as $dp2)
-                    <span class="text-sm text-bold">{{ $dp2->nama }}</span>
+                    <span style="font-size: 12px"><b>{{ $dp2->nama }}</b></span>
                 @endforeach
             </td>
-        </tr>
-    </table>
-    <table class="mt-4 w-100 flex">
-        <tr>
-            <td class="center borderAtas borderKiri borderKanan w-25">
-                <span class="text-md">Pembimbing I</span>
-            </td>
-            <td class="w-40" colspan=""></td>
-            <td class="center borderAtas borderKiri borderKanan w-25">
-                <span class="text-md">Pembimbing II</span>
-            </td>
-            <td class="w-35"></td>
         </tr>
     </table>
     <?php $no1 = 0; ?>
     <?php $no2 = 0; ?>
-    @foreach ($riwayatBimbingan1 as $rb1)
-        @foreach ($riwayatBimbingan2 as $rb2)
-            <table>
+    <div style="width: 100%">
+        {{-- Table Riwayat 1 --}}
+        <div style="float: left; width: 49%">
+            <table class="mt-4" style="width: 37%">
                 <tr>
-                    <td class="w-1 center border bg-nomor" rowspan="2" width="35px"><span
-                            class="text-white">{{ ++$no1 }}</span></td>
-                    <td class="text-xs borderAtas borderKanan" width="291.5px"><span class="ps-2">Tanggal Konsultasi:
-                            {{ date('d M Y', strtotime($rb1->tanggalBimbingan)) }}</span>
+                    <td style="font-size: 12px; text-align: center;" class="center borderAtas borderKiri borderKanan">
+                        <span>Pembimbing I</span>
                     </td>
-
-                    <td width="30px" rowspan="2"></td>
-
-                    <td class="w-1 center border bg-nomor" rowspan="2" width="35px"><span
-                            class="text-white">{{ ++$no2 }}</span></td>
-                    <td class="text-xs borderAtas borderKanan"><span class="ps-2">Tanggal Konsultasi:
-                            {{ date('d M Y', strtotime($rb2->tanggalBimbingan)) }}</span></td>
-                </tr>
-                <tr>
-                    <td class="borderBawah borderKanan"></td>
-                    <td class="borderBawah borderKanan"></td>
                 </tr>
             </table>
+            @foreach ($riwayatBimbingan1 as $rb1)
+                <div>
+                    <div>
+                        <table>
+                            <tr>
+                                <td style="width: 10%; text-align: center;" class="bg-nomor" rowspan="2">
+                                    <span class="text-white">{{ ++$no1 }}
+                                    </span>
+                                </td>
+                                <td class="text-xs borderAtas borderKanan">
+                                    <span class="ps-2">Tanggal Konsultasi:
+                                        {{ date('d M Y', strtotime($rb1->tanggalBimbingan)) }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="borderBawah borderKanan"></td>
+                            </tr>
+                        </table>
 
-            <table>
-                <tr>
-                    <td class="borderKiri borderKanan" width="220px">
-                        <span class="text-xxs ps-2">Catatan Perkembangan/Revisi Skripsi:</span>
-                    </td>
-                    <td class="borderKanan" width="106.5px">
-                        <span class="ps-1 text-xs">Paraf Dosen:</span>
-                    </td>
+                        <table>
+                            <tr>
+                                <td class="borderKiri borderKanan" style="width: 72%">
+                                    <span style="font-size: 8px" class="ps-2">Catatan Perkembangan/Revisi
+                                        Skripsi:</span>
+                                </td>
+                                <td class="borderKanan">
+                                    <span style="font-size: 10px;" class="ps-1">Paraf Dosen:</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="borderKiri borderBawah" rowspan="3">
+                                    <p style="font-size: 10px;">
+                                        {{ $rb1->catatanBimbingan }}</p>
+                                </td>
+                                <td class="borderKiri borderKanan borderBawah" height="40px"></td>
+                            </tr>
+                            <tr>
+                                <td class="borderKiri borderKanan" height="1px">
+                                    <span style="font-size: 10px" class="ps-1">Paraf Mahasiswa:</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="borderKiri borderKanan borderBawah" height="40px"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            @endforeach
+        </div>
 
-                    <td rowspan="4" width="30px"></td>
-
-                    <td class="borderKiri borderKanan" width="220px">
-                        <span class="text-xxs ps-2">Catatan Perkembangan/Revisi Skripsi:</span>
-                    </td>
-                    <td class="borderKanan">
-                        <span class="ps-1 text-xs">Paraf Dosen:</span>
-                    </td>
-                </tr>
+        {{-- Table Riwayat 2 --}}
+        <div style="float: right; width: 49%;">
+            <table class="mt-4" style="width: 37%">
                 <tr>
-                    <td class="borderKiri borderBawah" rowspan="3">
-                        <textarea class="text-xs">{{ $rb1->catatanBimbingan }}</textarea>
+                    <td style="font-size: 12px; text-align: center;" class="center borderAtas borderKiri borderKanan">
+                        <span>Pembimbing II</span>
                     </td>
-                    <td class="borderKiri borderKanan borderBawah" height="40px"></td>
-                    <td class="borderKiri borderBawah" rowspan="3">
-                        <textarea class="text-xs">{{ $rb2->catatanBimbingan }}</textarea>
-                    </td>
-                    <td class="borderKiri borderKanan borderBawah"></td>
-                </tr>
-                <tr>
-                    <td class="borderKiri borderKanan" height="1px">
-                        <span class="ps-1 text-xs">Paraf Mahasiswa:</span>
-                    </td>
-                    <td class="borderKiri borderKanan">
-                        <span class="ps-1 text-xs">Paraf Mahasiswa:</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="borderKiri borderKanan borderBawah" height="40px"></td>
-                    <td class="borderKiri borderKanan borderBawah"></td>
                 </tr>
             </table>
-        @endforeach
-    @endforeach
+            @foreach ($riwayatBimbingan2 as $rb2)
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <table>
+                            <tr>
+                                <td style="width: 10%; text-align: center;" class="bg-nomor" rowspan="2">
+                                    <span class="text-white">{{ ++$no2 }}
+                                    </span>
+                                </td>
+                                <td class="text-xs borderAtas borderKanan">
+                                    <span class="ps-2">Tanggal Konsultasi:
+                                        {{ date('d M Y', strtotime($rb2->tanggalBimbingan)) }}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="borderBawah borderKanan"></td>
+                            </tr>
+                        </table>
+
+                        <table>
+                            <tr>
+                                <td class="borderKiri borderKanan" style="width: 72%">
+                                    <span style="font-size: 8px" class="ps-2">Catatan Perkembangan/Revisi
+                                        Skripsi:</span>
+                                </td>
+                                <td class="borderKanan">
+                                    <span style="font-size: 10px;" class="ps-1">Paraf Dosen:</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="borderKiri borderBawah" rowspan="3">
+                                    <p style="font-size: 10px;">
+                                        {{ $rb2->catatanBimbingan }}</p>
+                                </td>
+                                <td class="borderKiri borderKanan borderBawah" height="40px"></td>
+                            </tr>
+                            <tr>
+                                <td class="borderKiri borderKanan" height="1px">
+                                    <span style="font-size: 10px" class="ps-1">Paraf Mahasiswa:</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="borderKiri borderKanan borderBawah" height="40px"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
+        <div style="clear: both;"></div> {{-- Clear float --}}
+    </div>
 </body>
+
 </html>

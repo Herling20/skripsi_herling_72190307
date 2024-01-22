@@ -21,7 +21,7 @@
                     if (response.status == 'sukses') {
                         $('.tombol_tutup').click();
                         $('#editMilestoneForm')[0].reset();
-                        $('.table-responsive').load(location.href+' .table-responsive');
+                        $('.table-responsive').load(location.href + ' .table-responsive');
                         toastr["success"]('Data milestone Berhasil di ubah.', 'Berhasil!')
                         toastr.options = {
                             "closeButton": false,
@@ -42,11 +42,11 @@
                     });
 
                     // Function to append error messages
-                    function appendErrorMessage(elementId, message) {
+                    function appendErrorMessage(elementId, message, errorMessages) {
                         if ($(elementId).siblings('.error-message').length === 0) {
                             $(elementId).addClass('is-invalid');
                             $(elementId).after(
-                                '<span class="text-danger text-sm pt-1 font-weight-normal error-message">' +
+                                '<span class="text-danger text-sm pt-1 font-weight-normal error-message text-wrap">' +
                                 message +
                                 '</span>');
                             errorMessages.push(message);
@@ -56,15 +56,14 @@
 
 
                     // Event listener to remove error message when the corresponding input field is filled
-                    $('#namaMilestone, #bobot, #semester, #tanggalBerakhir')
-                        .on('input',
-                            function() {
-                                var inputId = '#' + $(this).attr('id');
-                                if ($(inputId).val().trim() !== '') {
-                                    $(inputId).removeClass('is-invalid');
-                                    $(inputId).siblings('.error-message').remove();
-                                }
-                            });
+                    $('#namaMilestone, #bobot, #semester, #tanggalBerakhir').on('input',
+                        function() {
+                            var inputId = '#' + $(this).attr('id');
+                            if ($(inputId).val().trim() !== '') {
+                                $(inputId).removeClass('is-invalid');
+                                $(inputId).siblings('.error-message').remove();
+                            }
+                        });
                 }
             });
         });
